@@ -1,0 +1,36 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-full">
+    <div class="text-center px-8 w-full">
+
+        <!-- Hero Section -->
+        <div class="max-w-4xl mx-auto mt-12">
+            <h1 class="text-6xl md:text-7xl font-black mb-4 leading-tight">
+                Stop Scrolling,<br>Start Watching
+            </h1>
+            <p class="text-xl text-text-secondary mb-10 leading-relaxed max-w-2xl mx-auto">
+                Discover movies perfectly matched to your taste.<br>Use the filters to find exactly what you're in the mood for.
+            </p>
+            
+            <!-- Hero Buttons -->
+            <div class="flex flex-col items-center gap-5 mb-10">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'filter_page' %}" class="w-64 max-w-full px-6 py-2 text-xl font-bold rounded-lg bg-movie-red border-2 border-movie-red text-white hover:bg-movie-red-hover hover:border-movie-red-hover transition-colors duration-200 text-center">Find Your Next Movie</a>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="w-64 max-w-full px-6 py-2 text-xl font-bold rounded-lg bg-movie-red border-2 border-movie-red text-white hover:bg-movie-red-hover hover:border-movie-red-hover transition-colors duration-200 text-center">Get Started for Free</a>
+                    <a href="{% url 'filter_page' %}" class="w-64 max-w-full px-6 py-2 text-xl font-bold rounded-lg border-2 border-dark-border text-white hover:bg-white hover:text-dark-bg transition-all duration-200 text-center">Or Just Find a Movie</a>
+                {% endif %}
+            </div>
+
+            <!-- Filter Showcase -->
+            <div class="flex flex-wrap justify-center gap-8 mt-8 bg-showcase-bg p-8 rounded-xl border border-dark-border">
+                <div class="text-center text-text-secondary"><i class="fa-solid fa-masks-theater text-4xl mb-4 text-movie-red block"></i><h3 class="text-white font-bold m-0">Genre</h3></div>
+                <div class="text-center text-text-secondary"><i class="fa-solid fa-calendar-days text-4xl mb-4 text-movie-red block"></i><h3 class="text-white font-bold m-0">Year</h3></div>
+                <div class="text-center text-text-secondary"><i class="fa-solid fa-star-half-stroke text-4xl mb-4 text-movie-red block"></i><h3 class="text-white font-bold m-0">Rating</h3></div>
+                <div class="text-center text-text-secondary"><i class="fa-solid fa-language text-4xl mb-4 text-movie-red block"></i><h3 class="text-white font-bold m-0">Language</h3></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

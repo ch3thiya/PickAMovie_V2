@@ -1,0 +1,89 @@
+{% extends 'movies/base.html' %}
+
+{% block extra_head %}
+    <script>
+        // Override base colors for this specific page if needed
+        tailwind.config.theme.extend.colors['movie-red'] = '#c20000';
+        tailwind.config.theme.extend.colors['movie-red-hover'] = '#a00000';
+        tailwind.config.theme.extend.colors['dark-bg'] = '#000000';
+        tailwind.config.theme.extend.colors['dark-surface'] = '#1a1a1a';
+        tailwind.config.theme.extend.colors['dark-card'] = '#222222';
+        tailwind.config.theme.extend.colors['dark-border'] = '#333333';
+        tailwind.config.theme.extend.colors['purple-section'] = '#2e1a47';
+        tailwind.config.theme.extend.colors['text-secondary'] = '#aaa';
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="bg-dark-bg text-white font-inter leading-relaxed flex justify-center items-center h-full">
+    <div class="max-w-6xl mx-auto p-5 flex flex-col justify-center items-center">
+        <div id="main-container" class="flex bg-dark-surface rounded-xl overflow-hidden shadow-2xl w-full lg:flex-row flex-col">
+            <!-- Intro Section -->
+            <div class="flex-1 bg-purple-section p-10 text-white">
+                <h2 class="text-2xl font-bold mb-1 mt-5">Discover Your Next Favorite Movie</h2>
+                <div class="mt-1 text-m mb-8">Not sure what to watch? Let us help you find the perfect movie in just a few clicks!</div>
+                <ul class="list-none space-y-5">
+                    <li><div class="font-bold text-lg">✅ Pick a Genre</div><div class="mt-1 text-m opacity-90">Action, Romance, Comedy? The choice is yours.</div></li>
+                    <li><div class="font-bold text-lg">✅ Choose a Year</div><div class="mt-1 text-m opacity-90">Love classics or the latest blockbusters? Set your range.</div></li>
+                    <li><div class="font-bold text-lg">✅ Adjust the Ratings</div><div class="mt-1 text-m opacity-90">Find hidden gems or the highest-rated masterpieces.</div></li>
+                    <li><div class="font-bold text-lg">✅ Select a Language</div><div class="mt-1 text-m opacity-90">From Hollywood to Bollywood, explore global cinema.</div></li>
+                </ul>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="flex-1 p-10 bg-dark-surface">
+                <form id="filter-form" class="space-y-6" method="GET" action="{% url 'filter_page' %}">
+                    {% csrf_token %}
+                    <!-- Genre Filter -->
+                    <div class="space-y-3">
+                        <label for="{{ form.genre.id_for_label }}" class="block font-semibold text-xl">Genre</label>
+                        {{ form.genre }}
+                    </div>
+
+                    <!-- Year Filter -->
+                    <div class="space-y-3">
+                        <label class="block font-semibold text-xl">Year</label>
+                        <div class="flex gap-3 md:flex-row flex-col">
+                            {{ form.year_from }}
+                            {{ form.year_to }}
+                        </div>
+                    </div>
+
+                    <!-- Rating Filter -->
+                    <div class="space-y-3">
+                        <label for="{{ form.rating.id_for_label }}" class="block font-semibold text-xl">Minimum Rating</label>
+                        {{ form.rating }}
+                    </div>
+
+                    <!-- Language Filter -->
+                    <div class="space-y-3">
+                        <label for="{{ form.language.id_for_label }}" class="block font-semibold text-xl">Language</label>
+                        {{ form.language }}
+                    </div>
+
+                    <button type="submit" id="search-button" class="w-full p-4 bg-movie-red text-white border-0 rounded cursor-pointer text-lg font-semibold hover:bg-movie-red-hover transition-colors duration-300 mt-5">
+                        Give me a movie
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="loading-container" class="text-center p-10 bg-dark-surface rounded-xl shadow-2xl w-full max-w-lg hidden">
+            <div class="w-12 h-12 border-4 border-dark-border border-t-movie-red rounded-full mx-auto animate-spin"></div>
+            <p class="mt-5 font-semibold text-text-secondary text-lg">Looking for your perfect movie...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const filterForm = document.getElementById('filter-form');
+    const mainContainer = document.getElementById('main-container');
+    const loadingContainer = document.getElementById('loading-container');
+
+    filterForm.addEventListener('submit', function() {
+        // When the form is submitted, hide the form and show the spinner
+        mainContainer.classList.add('hidden');
+        loadingContainer.classList.remove('hidden');
+    });
+</script>
+
+{% endblock %}

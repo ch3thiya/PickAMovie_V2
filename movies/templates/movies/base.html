@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick A Movie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'movie-red': '#e50914',
+                        'movie-red-hover': '#f40612',
+                        'dark-bg': '#121212',
+                        'dark-surface': '#1e1e1e',
+                        'dark-border': '#2d2d2d',
+                        'text-secondary': '#b3b3b3',
+                        'rating-gold': '#f5c518',
+                        'showcase-bg': '#191919'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-dark-bg text-white font-inter flex flex-col min-h-screen">
+
+    <!-- GLOBAL HEADER START -->
+    <header class="flex justify-between items-center max-w-screen-xl mx-auto p-4 sm:p-6 w-full">
+        <a href="{% url 'landing_page' %}" class="text-3xl font-black text-movie-red">
+            Pick A Movie
+        </a>
+        <div class="flex gap-4 items-center">
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile_page' %}" class="px-4 py-2 font-bold rounded-lg border-2 border-dark-border text-white hover:bg-white hover:text-dark-bg transition-all duration-200 text-center">My Profile</a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="px-4 py-2 font-bold rounded-lg bg-movie-red border-2 border-movie-red text-white hover:bg-movie-red-hover hover:border-movie-red-hover transition-colors duration-200 text-center">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="px-4 py-2 font-bold rounded-lg border-2 border-dark-border text-white hover:bg-white hover:text-dark-bg transition-all duration-200 text-center">Sign In</a>
+                <a href="{% url 'signup' %}" class="px-4 py-2 font-bold rounded-lg bg-movie-red border-2 border-movie-red text-white hover:bg-movie-red-hover hover:border-movie-red-hover transition-colors duration-200 text-center">Register</a>
+            {% endif %}
+        </div>
+    </header>
+    <!-- GLOBAL HEADER END -->
+
+    {% if messages %}
+    <div id="messages-container" class="fixed top-24 left-1/2 -translate-x-1/2 w-full max-w-md z-50 px-4">
+        {% for message in messages %}
+            <div class="message-item p-4 mb-2 rounded-lg text-center shadow-lg transition-opacity duration-500 ease-out
+                {% if message.tags == 'success' %} bg-green-600 text-white {% endif %}
+                {% if message.tags == 'error' %} bg-red-600 text-white {% endif %}"
+                role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- This main tag will grow to fill the remaining space -->
+    <main class="flex-grow">
+        {% block content %}
+        <!-- The main content of each specific page will go here -->
+        {% endblock %}
+    </main>
+    
+    <script>
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Select all individual message items
+            const messageItems = document.querySelectorAll('.message-item');
+
+            messageItems.forEach(function(message) {
+                // Set a timeout to start the fade-out process after 4.5 seconds
+                setTimeout(function() {
+                    message.style.opacity = '0';
+                }, 4500); // 4.5 seconds
+
+                // Set another timeout to completely remove the element after the fade-out animation completes
+                setTimeout(function() {
+                    message.remove();
+                }, 5000); // 5 seconds (4500ms for wait + 500ms for fade)
+            });
+        });
+    </script>
+
+</body>
+</html>

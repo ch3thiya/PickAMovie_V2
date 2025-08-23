@@ -1,0 +1,25 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+<div class="min-h-full flex items-center justify-center p-6">
+    <div class="max-w-xl w-full bg-dark-surface p-8 rounded-xl border border-dark-border text-center">
+        <h1 class="text-3xl font-bold mb-4 text-movie-red">Delete Your Account</h1>
+        <p class="text-text-secondary mb-6">
+            Are you absolutely sure you want to delete your account?
+            <br>
+            This action is irreversible. All of your saved movie lists will be permanently lost.
+        </p>
+        <form method="post" action="{% url 'delete_profile' %}">
+            {% csrf_token %}
+            <div class="flex justify-center gap-4 mt-8">
+                <a href="{% url 'profile_page' %}" class="px-6 py-3 font-bold rounded-lg border-2 border-dark-border text-white hover:bg-white hover:text-dark-bg transition-all duration-200 text-center">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-3 font-bold rounded-lg bg-movie-red border-2 border-movie-red text-white hover:bg-movie-red-hover hover:border-movie-red-hover transition-colors duration-200 text-center">
+                    Yes, Delete My Account
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

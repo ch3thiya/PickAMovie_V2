@@ -1,0 +1,27 @@
+{% extends 'registration/auth_base.html' %}
+{% load static %} <!-- Add this to use the static template tag -->
+
+{% block title %}Create Account - Pick A Movie{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="home-icon">
+        <a href="{% url 'landing_page' %}" title="Go to Home">
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
+    <h1>Create Account</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.errors }}
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <div class="auth-switch">Already have an account? <a href="{% url 'login' %}">Sign in.</a></div>
+    </form>
+</div>
+{% endblock %}

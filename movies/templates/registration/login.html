@@ -1,0 +1,26 @@
+{% extends 'registration/auth_base.html' %}
+
+{% block title %}Sign In - Pick A Movie{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="home-icon">
+        <a href="{% url 'landing_page' %}" title="Go to Home">
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
+    <h1>Sign In</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.errors }}
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Sign In</button>
+        <div class="auth-switch">New to Pick A Movie? <a href="{% url 'signup' %}">Sign up now.</a></div>
+    </form>
+</div>
+{% endblock %}

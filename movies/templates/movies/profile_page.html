@@ -1,0 +1,96 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <script>
+        function showTab(tabName, element) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-link').forEach(link => {
+                link.classList.remove('text-movie-red', 'border-movie-red');
+                link.classList.add('text-white', 'border-transparent');
+            });
+            document.getElementById(tabName).classList.remove('hidden');
+            element.classList.remove('text-white', 'border-transparent');
+            element.classList.add('text-movie-red', 'border-movie-red');
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Profile Header -->
+        <header class="relative flex flex-col sm:flex-row items-center gap-8 mb-12 bg-dark-surface p-8 rounded-xl border border-dark-border">
+            <!-- Delete Profile Button - Top Right -->
+            <div class="absolute top-9 right-9">
+                <a href="{% url 'delete_profile' %}" class="px-3 py-1.5 text-sm font-bold rounded-lg bg-movie-red border-2 border-movie-red text-white hover:bg-movie-red-hover hover:border-movie-red-hover transition-colors duration-200 text-center">Delete Profile</a>
+            </div>
+            
+            <!-- Avatar -->
+            <div class="flex-shrink-0">
+                <img src="{% static user_profile.get_avatar_url %}" alt="{{ user.username }}'s avatar" class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-dark-border">
+            </div>
+            
+            <div class="text-center sm:text-left">
+                <h1 class="text-4xl sm:text-5xl font-bold mb-6">{{ user.username }}</h1>
+                <div class="flex flex-col sm:flex-row gap-6 sm:gap-8">
+                    <div class="text-center">
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white">{{ watched_count }}</h3>
+                        <p class="text-sm text-text-secondary uppercase font-medium">Movies Watched</p>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white">{{ watch_later_count }}</h3>
+                        <p class="text-sm text-text-secondary uppercase font-medium">On Watch Later</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Profile Content -->
+        <main>
+            <div class="flex border-b border-dark-border mb-8">
+                <div class="tab-link px-6 py-4 cursor-pointer font-medium border-b-4 text-movie-red border-movie-red transition-colors duration-200" onclick="showTab('watch-later', this)">Watch Later</div>
+                <div class="tab-link px-6 py-4 cursor-pointer font-medium border-b-4 text-white border-transparent transition-colors duration-200 hover:text-text-secondary" onclick="showTab('watched', this)">Watched</div>
+            </div>
+
+            <!-- Watch Later Tab -->
+            <div id="watch-later" class="tab-content">
+                {% if watch_later_movies %}
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    {% for movie in watch_later_movies %}
+                    <a href="{% url 'my_movie_details' movie.id %}" class="movie-grid-item group">
+                        {% if movie.poster_path %}
+                            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="w-full h-auto rounded-lg shadow-lg transition-transform duration-200 group-hover:scale-105">
+                        {% else %}
+                            <div class="w-full h-full min-h-[278px] bg-dark-surface rounded-lg flex items-center justify-center text-center p-2 group-hover:scale-105 transition-transform duration-200">{{ movie.title }}</div>
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-text-secondary">No movies on your watch later list.</p>
+                {% endif %}
+            </div>
+
+            <!-- Watched Tab -->
+            <div id="watched" class="tab-content hidden">
+                 {% if watched_movies %}
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    {% for movie in watched_movies %}
+                    <a href="{% url 'my_movie_details' movie.id %}" class="movie-grid-item group">
+                        {% if movie.poster_path %}
+                            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="w-full h-auto rounded-lg shadow-lg transition-transform duration-200 group-hover:scale-105">
+                        {% else %}
+                             <div class="w-full h-full min-h-[278px] bg-dark-surface rounded-lg flex items-center justify-center text-center p-2 group-hover:scale-105 transition-transform duration-200">{{ movie.title }}</div>
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-text-secondary">No movies on your watched list.</p>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
