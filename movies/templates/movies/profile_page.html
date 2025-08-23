@@ -21,8 +21,8 @@
     <div class="max-w-6xl mx-auto">
         <!-- Profile Header -->
         <header class="relative flex flex-col sm:flex-row items-center gap-8 mb-12 bg-dark-surface p-8 rounded-xl border border-dark-border">
-            <!-- Delete Profile Button - Top Right -->
-            <div class="absolute top-9 right-9">
+            <!-- Delete Profile Button - Top Right on desktop, hidden on mobile -->
+            <div class="hidden sm:block absolute top-8 right-8">
                 <a href="{% url 'delete_profile' %}" class="px-3 py-1.5 text-sm font-bold rounded-lg bg-movie-red border-2 border-movie-red text-white hover:bg-movie-red-hover hover:border-movie-red-hover transition-colors duration-200 text-center">Delete Profile</a>
             </div>
             
@@ -43,6 +43,11 @@
                         <p class="text-sm text-text-secondary uppercase font-medium">On Watch Later</p>
                     </div>
                 </div>
+            </div>
+            
+            <!-- Delete Profile Button - Centered below content on mobile only -->
+            <div class="sm:hidden w-full flex justify-center mt-4">
+                <a href="{% url 'delete_profile' %}" class="px-4 py-2 text-sm font-bold rounded-lg bg-movie-red border-2 border-movie-red text-white hover:bg-movie-red-hover hover:border-movie-red-hover transition-colors duration-200 text-center">Delete Profile</a>
             </div>
         </header>
 
