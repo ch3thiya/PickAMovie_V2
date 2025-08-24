@@ -72,3 +72,10 @@ This full-stack application is built with Python and the Django web framework, f
 - **The Movie Database (TMDB)** 
 - **Django Project**
 - **Tailwind CSS**
+
+---
+
+## License
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
