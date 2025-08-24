@@ -1,14 +1,10 @@
 from django.urls import path
-from . import views # import views from the current directory
-
+from . import views 
 urlpatterns = [
-    # Path for the landing page
     path('', views.landing_page, name='landing_page'),
 
-    # Path for the filter page
     path('find/', views.filter_page, name='filter_page'),
 
-    # Path for the signup page
     path('signup/', views.signup_page, name='signup'),
 
     path('movie/<int:movie_id>/', views.movie_recommendation_page, name='movie_recommendation'),

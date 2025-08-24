@@ -12,11 +12,9 @@ from . import tmdb_api
 
 LANGUAGE_MAP = {code: name for code, name in LANGUAGE_CHOICES if code}
 
-# ... your existing landing_page and filter_page views ...
 def landing_page(request):
     return render(request, 'movies/landing_page.html')
 
-# Add the new signup view
 def signup_page(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST) # Use the custom form
@@ -37,7 +35,7 @@ def filter_page(request):
         form = MovieFilterForm(request.GET)
         if form.is_valid():
             filters = form.cleaned_data
-            # Call our new API function to get a list of movies
+            # Call API function to get a list of movies
             prefetched_movies = tmdb_api.discover_and_prefetch_movies(filters)
 
             if prefetched_movies:
@@ -54,7 +52,6 @@ def filter_page(request):
                 return redirect('movie_recommendation', movie_id=first_movie_id)
             else:
                 # No movies found, fall through to render the form again
-                # (Consider adding an error message here)
                 pass
     else:
         form = MovieFilterForm()
@@ -100,8 +97,8 @@ def movie_recommendation_page(request, movie_id):
     context = {
         'movie': movie,
         'cast': cast,
-        'director': director, # Pass the director
-        'full_language_name': full_language_name, # Pass the full language name
+        'director': director, 
+        'full_language_name': full_language_name, 
     }
     return render(request, 'movies/movie_recommendation.html', context)
 
@@ -116,9 +113,6 @@ def add_to_list(request):
         status = request.POST.get('status')
         user = request.user
 
-        # Use update_or_create to either find and update an existing entry,
-        # or create a new one if it doesn't exist.
-        # This cleverly handles both "Add to Watched" and "Move to Watch Later".
         UserMovieList.objects.update_or_create(
             user=user,
             movie_id=movie_id,
@@ -126,7 +120,6 @@ def add_to_list(request):
         )
 
         messages.success(request, "Movie list updated successfully!")
-        # Redirect back to the referrer page (the movie details page)
         return redirect(request.META.get('HTTP_REFERER', 'filter_page'))
 
     # If it's not a POST request, just redirect to the filter page
@@ -155,7 +148,7 @@ def profile_page(request):
     context = {
         'user_profile': user_profile,
         'watch_later_movies': watch_later_details,
-        'watched_movies': watched_details, # Changed back from watched_movies_data
+        'watched_movies': watched_details, 
         'watch_later_count': watch_later_list.count(),
         'watched_count': watched_list.count(),
     }
@@ -167,12 +160,10 @@ def my_movie_details(request, movie_id):
     if not movie:
         raise Http404("Movie not found in TMDB.")
 
-    # Get the new credits dictionary
     credits = tmdb_api.get_movie_credits(movie_id)
     cast = credits.get('cast')
     director = credits.get('director')
 
-    # Look up the full language name
     full_language_name = LANGUAGE_MAP.get(movie.get('original_language'), movie.get('original_language'))
 
     list_entry = get_object_or_404(UserMovieList, user=request.user, movie_id=movie_id)
@@ -195,7 +186,7 @@ def delete_from_list(request):
         list_entry.delete()
 
     messages.success(request, "Movie list updated successfully!")
-    return redirect('profile_page') # Redirect back to the profile
+    return redirect('profile_page') 
 
 @login_required
 def move_to_watched(request):

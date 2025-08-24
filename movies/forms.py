@@ -26,7 +26,7 @@ GENRE_CHOICES = [
     (37, 'Western'),
 ]
 
-# 2. New dropdown choices for minimum rating
+# 2. Dropdown choices for minimum rating
 RATING_CHOICES = [
     ('', 'Any Rating'),
     (9, '9+'),
@@ -37,7 +37,7 @@ RATING_CHOICES = [
     (4, '4+'),
 ]
 
-# 3. New expanded list of languages
+# 3. List of languages
 LANGUAGE_CHOICES = [
     ('', 'Any Language'),
     ('en', 'English'),
@@ -74,7 +74,7 @@ LANGUAGE_CHOICES = [
 
 
 class MovieFilterForm(forms.Form):
-    # Common Tailwind classes for form elements
+    # Tailwind classes for form elements
     form_select_classes = 'w-full p-3 border border-dark-border rounded bg-dark-surface text-white text-base appearance-none bg-[url(\'data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3e%3cpolyline points="6 9 12 15 18 9"%3e%3c/polyline%3e%3c/svg%3e\')] bg-no-repeat bg-[position:right_10px_center] bg-[length:20px] pr-10'
     form_input_classes = 'flex-1 p-3 border border-dark-border rounded bg-dark-surface text-white text-base'
 

@@ -89,7 +89,6 @@ def get_movie_credits(movie_id):
     Fetches the cast (top 3) and the director for a specific movie, using cache.
     Returns a dictionary: {'cast': [...], 'director': ...}
     """
-    # We change the cache key to reflect the new data structure
     cache_key = f"movie_credits_and_director_{movie_id}"
     cached_data = cache.get(cache_key)
     if cached_data is not None:
@@ -110,11 +109,10 @@ def get_movie_credits(movie_id):
                 director = member
                 break # Stop after finding the first director
 
-        # The new data structure we will return and cache
         credits = {'cast': cast, 'director': director}
-        cache.set(cache_key, credits, 60 * 60 * 24) # Cache the whole dictionary
+        cache.set(cache_key, credits, 60 * 60 * 24) 
         return credits
 
     except requests.RequestException as e:
         print(f"API request for credits failed for movie ID {movie_id}: {e}")
-        return {'cast': [], 'director': None} # Return a default structure on failure
+        return {'cast': [], 'director': None} 

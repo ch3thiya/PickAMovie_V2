@@ -96,10 +96,8 @@
     </div>
     {% endif %}
 
-    <!-- This main tag will grow to fill the remaining space -->
     <main class="flex-grow">
         {% block content %}
-        <!-- The main content of each specific page will go here -->
         {% endblock %}
     </main>
     
@@ -137,15 +135,13 @@
             const messageItems = document.querySelectorAll('.message-item');
 
             messageItems.forEach(function(message) {
-                // Set a timeout to start the fade-out process after 4.5 seconds
                 setTimeout(function() {
                     message.style.opacity = '0';
-                }, 2500); // 2.5 seconds
+                }, 2500); 
 
-                // Set another timeout to completely remove the element after the fade-out animation completes
                 setTimeout(function() {
                     message.remove();
-                }, 3000); // 3 seconds (2500ms for wait + 500ms for fade)
+                }, 3000);
             });
         });
     </script>
