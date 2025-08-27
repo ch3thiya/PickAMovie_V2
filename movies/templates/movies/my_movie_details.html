@@ -11,25 +11,29 @@
 
 {% block content %}
 <div class="h-full flex items-center justify-center p-6">
-    <div class="max-w-5xl w-full">
+    <div class="max-w-7xl w-full">
         <div class="bg-dark-surface rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row">
-            <!-- Movie Poster -->
-            <div class="lg:w-80 w-full h-96 lg:h-auto flex-shrink-0">
-                {% if movie.poster_path %}
-                    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} Poster" class="w-full h-full object-cover">
-                {% else %}
-                    <div class="w-full h-full bg-dark-border flex items-center justify-center"><span class="text-text-secondary">No Poster</span></div>
-                {% endif %}
+            
+            <!-- Poster Section (takes 2/5 or 40% of the width on large screens) -->
+            <div class="w-full lg:w-2/5 flex-shrink-0">
+                <!-- This new div enforces a 2:3 aspect ratio, the standard for movie posters -->
+                <div class="aspect-[2/3] w-full bg-black">
+                    {% if movie.poster_path %}
+                        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} Poster" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full bg-dark-border flex items-center justify-center"><span class="text-text-secondary">No Poster</span></div>
+                    {% endif %}
+                </div>
             </div>
             
-            <!-- Movie Details -->
-            <div class="flex-1 p-8 lg:p-10">
-                <h1 class="text-3xl lg:text-3xl font-bold text-white mb-4">{{ movie.title }}</h1>
+            <!-- Details Section (takes the remaining 3/5 or 60%) -->
+            <div class="w-full lg:w-3/5 p-8 lg:p-10 min-w-0">
+                <h1 class="text-3xl font-bold text-white mb-4">{{ movie.title }}</h1>
                 
                 <div class="flex flex-wrap items-center gap-4 text-gray-300 mb-4">
-                    {% if movie.release_date %}<span class="text-lg">{{ movie.release_date|slice:":4" }}</span>{% endif %}                    
-                    {% if movie.runtime %}<span class="text-lg">{{ movie.runtime }} min</span>{% endif %}
+                    {% if movie.release_date %}<span class="text-lg">{{ movie.release_date|slice:":4" }}</span>{% endif %}
                     <span class="text-lg font-semibold text-rating-gold">{{ movie.vote_average|floatformat:1 }}/10</span>
+                    {% if movie.runtime %}<span class="text-lg">{{ movie.runtime }} min</span>{% endif %}
                 </div>
                 
                 <div class="flex flex-wrap gap-3 mb-6">
@@ -46,6 +50,7 @@
                     {% if full_language_name %}<p><span class="font-semibold text-white">Language:</span> {{ full_language_name }}</p>{% endif %}
                 </div>
                 
+                <!-- Action Buttons for My Movie Details Page -->
                 <div class="space-y-4">
                     <div class="flex flex-col sm:flex-row gap-3">
                         <form action="{% url 'delete_from_list' %}" method="post" class="flex-1">

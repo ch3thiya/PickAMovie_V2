@@ -193,12 +193,19 @@ def move_to_watched(request):
     if request.method == 'POST':
         entry_id = request.POST.get('entry_id')
         list_entry = get_object_or_404(UserMovieList, id=entry_id, user=request.user)
-        # Update the status
+        movie_id = list_entry.movie_id
+
+        # Update the status of the current entry
         list_entry.status = 'watched'
         list_entry.save()
-        # Redirect back to the same details page to see the change
+
+        UserMovieList.objects.filter(
+            user=request.user,
+            movie_id=movie_id,
+            status='watch_later'
+        ).exclude(id=list_entry.id).delete()
+
         messages.success(request, "Movie marked as watched!")
-        return redirect('my_movie_details', movie_id=list_entry.movie_id)
     return redirect('profile_page')
 
 @login_required
