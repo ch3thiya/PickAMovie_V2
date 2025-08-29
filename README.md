@@ -61,12 +61,5 @@ This full-stack application is built with Python and the Django web framework, f
 - **User Data:** Password management is handled by Django's secure, built-in authentication system.
 - **SQL Injection Prevention:** By using Django's ORM for all database queries, the application is protected against SQL injection vulnerabilities.
 
-## Credits
-
-- **The Movie Database (TMDB)** 
-- **Django Project**
-- **Tailwind CSS**
-
-
 ## License
 This project is open-source and available under the [MIT License](LICENSE).
