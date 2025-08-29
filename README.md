@@ -38,13 +38,9 @@ This full-stack application is built with Python and the Django web framework, f
 ### Backend:
 - **Language:** Python 3
 - **Web Framework:** Django
-- **Web Server:** Gunicorn
-- **API Interaction:** requests
-- **Environment Management:** python-dotenv
 
 ### Frontend:
 - **Styling:** Tailwind CSS
-- **Templating:** Django Template Language (DTL)
 - **JavaScript:** Vanilla JS for minor UX enhancements
 
 ### Database:
@@ -53,10 +49,8 @@ This full-stack application is built with Python and the Django web framework, f
 ### APIs & Services:
 - **The Movie Database (TMDB):** The primary source of all movie data
 
-### Deployment & DevOps:
+### Deployment:
 - **Hosting Platform:** PythonAnywhere
-- **Static File Serving:** Whitenoise
-- **Version Control:** Git & GitHub
 
 ## Security Model
 
